@@ -73,7 +73,7 @@ def cli() -> None:
             public_key = f.read()
         with open(os.path.join(args.key_dir, "private.key"), "rb") as f:
             private_key = f.read()
-        ballot = Ballot(poll, args.responses)
-        ballot.sign(public_key, private_key)
+        ballot = Ballot(args.responses)
+        ballot.sign(poll, public_key, private_key)
         with open(args.out_path, "wb") as f:
             f.write(ballot.dump().SerializeToString())
