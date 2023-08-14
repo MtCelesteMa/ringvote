@@ -1,5 +1,6 @@
 """Voter command line interface."""
 
+from ..ds.voters import Voter, Voter_
 from ..ds.polls import Poll, Poll_
 from ..ds.ballots import Ballot, Ballot_
 from .. import utils
@@ -17,6 +18,13 @@ def cli() -> None:
     keygen_parser = subparsers.add_parser("keygen", help="Generates public/private key pairs.")
     keygen_parser.set_defaults(mode="keygen")
     keygen_parser.add_argument("-o", "--out_dir", default=".", help="The directory to output the keys to.")
+
+    register_parser = subparsers.add_parser("register", help="Create a voter profile.")
+    register_parser.set_defaults(mode="register")
+    register_parser.add_argument("key_dir", help="The directory containing the keys. Only the public key is used.")
+    register_parser.add_argument("voter_name", help="Your name.")
+    register_parser.add_argument("extra_infos", nargs="+", help="Extra information in the pattern of [title] [content] [title] [content] ...")
+    register_parser.add_argument("-o", "--out_path", required=True, help="The path to output the profile to.")
 
     view_parser = subparsers.add_parser("view", help="View the poll.")
     view_parser.set_defaults(mode="view")
@@ -38,6 +46,16 @@ def cli() -> None:
             f.write(public_key)
         with open(os.path.join(args.out_dir, "private.key"), "wb") as f:
             f.write(private_key)
+    elif args.mode == "register":
+        with open(os.path.join(args.key_dir, "public.key"), "rb") as f:
+            public_key = f.read()
+        assert len(args.extra_infos) % 2 == 0
+        extra_infos = {}
+        for i in range(len(args.extra_infos) // 2):
+            extra_infos[args.extra_infos[2 * i]] = args.extra_infos[2 * i + 1]
+        voter = Voter(args.voter_name, extra_infos, public_key)
+        with open(args.out_path, "wb") as f:
+            f.write(voter.dump().SerializeToString())
     elif args.mode == "view":
         with open(args.poll, "rb") as f:
             poll = Poll.load(Poll_.FromString(f.read()))
