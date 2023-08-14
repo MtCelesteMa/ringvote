@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package ringvote;
+
+message Ballot {
+    repeated int32 responses = 1;
+    optional bytes signature = 2;
+}

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package ringvote;
+
+import "voter.proto";
+
+message Poll {
+    message Question {
+        optional string question = 1;
+        repeated string choices = 2;
+    }
+
+    repeated Question questions = 1;
+    repeated Voter voters = 2;
+}
