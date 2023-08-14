@@ -21,6 +21,9 @@ dependencies = [
     "protobuf"
 ]
 
+[project.scripts]
+ringvote = "ringvote.cli.user:cli"
+
 [project.urls]
 "Homepage" = "https://github.com/MtCelesteMa/ringvote"
 "Bug Tracker" = "https://github.com/MtCelesteMa/ringvote/issues"
