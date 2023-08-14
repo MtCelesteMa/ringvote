@@ -1,6 +1,6 @@
 """Objects representing questions."""
 
-from .poll_pb2 import Poll as _Poll
+from .poll_pb2 import Poll as Poll_
 
 import typing
 
@@ -16,18 +16,18 @@ class Question:
         self.question = question
         self.choices = choices
 
-    def dump(self) -> _Poll.Question:
+    def dump(self) -> Poll_.Question:
         """Exports the question to a protocol buffer.
 
         :return: A protocol buffer containing the question's information.
         """
-        return _Poll.Question(
+        return Poll_.Question(
             question=self.question,
             choices=self.choices
         )
 
     @classmethod
-    def load(cls, question: _Poll.Question) -> typing.Self:
+    def load(cls, question: Poll_.Question) -> typing.Self:
         """Imports the question from a protocol buffer.
 
         :param question: A protocol buffer containing the question's information.

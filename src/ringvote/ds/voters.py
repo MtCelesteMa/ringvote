@@ -1,6 +1,6 @@
 """Objects representing voters."""
 
-from .voter_pb2 import Voter as _Voter
+from .voter_pb2 import Voter as Voter_
 
 import typing
 
@@ -18,22 +18,22 @@ class Voter:
         self.extra_infos = extra_infos
         self.public_key = public_key
 
-    def dump(self) -> _Voter:
+    def dump(self) -> Voter_:
         """Exports the voter to a protocol buffer.
 
         :return: A protocol buffer containing the voter's information.
         """
-        return _Voter(
+        return Voter_(
             name=self.name,
             extra_infos=[
-                _Voter.ExtraInfo(title=title, content=content)
+                Voter_.ExtraInfo(title=title, content=content)
                 for title, content in self.extra_infos.items()
             ],
             public_key=self.public_key
         )
 
     @classmethod
-    def load(cls, voter: _Voter) -> typing.Self:
+    def load(cls, voter: Voter_) -> typing.Self:
         """Imports the voter from a protocol buffer.
 
         :param voter: A protocol buffer containing the voter's information.

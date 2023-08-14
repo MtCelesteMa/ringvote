@@ -1,6 +1,6 @@
 """Objects representing ballots."""
 
-from .ballot_pb2 import Ballot as _Ballot
+from .ballot_pb2 import Ballot as Ballot_
 
 from .polls import Poll
 from .. import utils
@@ -74,19 +74,19 @@ class Ballot:
             return True, name
         return False, None
 
-    def dump(self) -> _Ballot:
+    def dump(self) -> Ballot_:
         """Exports the ballot to a protocol buffer.
 
         :return: A protocol buffer containing the ballot's information.
         """
-        return _Ballot(
+        return Ballot_(
             poll=self.poll.dump(),
             responses=self.responses,
             signature=self.signature
         )
 
     @classmethod
-    def load(cls, ballot: _Ballot) -> typing.Self:
+    def load(cls, ballot: Ballot_) -> typing.Self:
         return cls(
             Poll.load(ballot.poll),
             [response for response in ballot.responses],

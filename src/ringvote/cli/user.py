@@ -1,7 +1,7 @@
 """Voter command line interface."""
 
-from ..ds.polls import Poll, _Poll
-from ..ds.ballots import Ballot, _Ballot
+from ..ds.polls import Poll, Poll_
+from ..ds.ballots import Ballot, Ballot_
 from .. import utils
 
 import os
@@ -40,7 +40,7 @@ def cli() -> None:
             f.write(private_key)
     elif args.mode == "view":
         with open(args.poll, "rb") as f:
-            poll = Poll.load(_Poll.FromString(f.read()))
+            poll = Poll.load(Poll_.FromString(f.read()))
         print(poll.title)
         print()
         for i, question in enumerate(poll.questions):
@@ -50,7 +50,7 @@ def cli() -> None:
             print()
     elif args.mode == "vote":
         with open(args.poll, "rb") as f:
-            poll = Poll.load(_Poll.FromString(f.read()))
+            poll = Poll.load(Poll_.FromString(f.read()))
         with open(os.path.join(args.key_dir, "public.key"), "rb") as f:
             public_key = f.read()
         with open(os.path.join(args.key_dir, "private.key"), "rb") as f:

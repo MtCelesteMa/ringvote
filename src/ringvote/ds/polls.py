@@ -1,6 +1,6 @@
 """Objects representing polls."""
 
-from .poll_pb2 import Poll as _Poll
+from .poll_pb2 import Poll as Poll_
 
 from .voters import Voter
 from .questions import Question
@@ -22,19 +22,19 @@ class Poll:
         self.questions = questions
         self.voters = voters
 
-    def dump(self) -> _Poll:
+    def dump(self) -> Poll_:
         """Exports the poll to a protocol buffer.
 
         :return: A protocol buffer containing the poll's information.
         """
-        return _Poll(
+        return Poll_(
             title=self.title,
             questions=[question.dump() for question in self.questions],
             voters=[voter.dump() for voter in self.voters]
         )
 
     @classmethod
-    def load(cls, poll: _Poll) -> typing.Self:
+    def load(cls, poll: Poll_) -> typing.Self:
         """Imports the question from a protocol buffer.
 
         :param poll: A protocol buffer containing the poll's information.
