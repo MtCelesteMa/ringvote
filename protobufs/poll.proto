@@ -10,6 +10,7 @@ message Poll {
         repeated string choices = 2;
     }
 
-    repeated Question questions = 1;
-    repeated Voter voters = 2;
+    optional string title = 1;
+    repeated Question questions = 2;
+    repeated Voter voters = 3;
 }

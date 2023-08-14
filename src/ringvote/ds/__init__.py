@@ -1,5 +1,6 @@
 """Common data structures."""
 
-from voter_pb2 import Voter
-from poll_pb2 import Poll
-from ballot_pb2 import Ballot
+from . import voters
+from . import questions
+from . import polls
+from . import ballots
