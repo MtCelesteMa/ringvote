@@ -7,7 +7,9 @@ import collections.abc
 import google.protobuf.descriptor
 import google.protobuf.internal.containers
 import google.protobuf.message
+from . import poll_pb2
 import sys
+import typing
 
 if sys.version_info >= (3, 8):
     import typing as typing_extensions
@@ -20,19 +22,26 @@ DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 class Ballot(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
+    POLL_FIELD_NUMBER: builtins.int
     RESPONSES_FIELD_NUMBER: builtins.int
     SIGNATURE_FIELD_NUMBER: builtins.int
+    @property
+    def poll(self) -> poll_pb2.Poll: ...
     @property
     def responses(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.int]: ...
     signature: builtins.bytes
     def __init__(
         self,
         *,
+        poll: poll_pb2.Poll | None = ...,
         responses: collections.abc.Iterable[builtins.int] | None = ...,
         signature: builtins.bytes | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["_signature", b"_signature", "signature", b"signature"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["_signature", b"_signature", "responses", b"responses", "signature", b"signature"]) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["_poll", b"_poll", "_signature", b"_signature", "poll", b"poll", "signature", b"signature"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["_poll", b"_poll", "_signature", b"_signature", "poll", b"poll", "responses", b"responses", "signature", b"signature"]) -> None: ...
+    @typing.overload
+    def WhichOneof(self, oneof_group: typing_extensions.Literal["_poll", b"_poll"]) -> typing_extensions.Literal["poll"] | None: ...
+    @typing.overload
     def WhichOneof(self, oneof_group: typing_extensions.Literal["_signature", b"_signature"]) -> typing_extensions.Literal["signature"] | None: ...
 
 global___Ballot = Ballot

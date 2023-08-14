@@ -33,7 +33,7 @@ class Result:
         status = [BallotStatus.UNKNOWN for i in range(len(self.ballots))]
         for i, ballot in enumerate(self.ballots):
             if ballot.signed:
-                if ballot.verify(self.poll):
+                if ballot.verify():
                     status[i] = BallotStatus.VERIFIED
                 else:
                     status[i] = BallotStatus.SIG_INVALID
@@ -44,7 +44,7 @@ class Result:
         for i, ballot_i in enumerate(self.ballots):
             for j, ballot_j in enumerate(self.ballots):
                 if status[i] == status[j] == BallotStatus.VERIFIED:
-                    d, name = ballot_i.trace(self.poll, ballot_j)
+                    d, name = ballot_i.trace(ballot_j)
                     if d:
                         duplicates[i] = name
                         duplicates[j] = name
