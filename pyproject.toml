@@ -23,6 +23,7 @@ dependencies = [
 
 [project.scripts]
 ringvote = "ringvote.cli.user:cli"
+ringvote-admin = "ringvote.cli.admin:cli"
 
 [project.urls]
 "Homepage" = "https://github.com/MtCelesteMa/ringvote"

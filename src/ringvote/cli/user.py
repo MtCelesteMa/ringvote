@@ -13,6 +13,67 @@ from crypto_otrs import ring
 
 def cli() -> None:
     arg_parser = argparse.ArgumentParser()
+    main_subparser = arg_parser.add_subparsers(title="mode")
+
+    keygen_parser = main_subparser.add_parser("keygen", help="Generates public/private key pairs.")
+    keygen_parser.set_defaults(mode="keygen")
+    keygen_parser.add_argument("-o", "--out_dir", default=".", help="The directory to output the keys to.")
+
+    profile_parser = main_subparser.add_parser("profile", help="Actions related to voter profiles.")
+    profile_parser.set_defaults(mode="profile")
+    profile_parser.add_argument("path", help="The path to the voter profile.")
+    profile_subparser = profile_parser.add_subparsers(title="action")
+
+    profile_create_parser = profile_subparser.add_parser("create", help="Creates a new voter profile.")
+    profile_create_parser.set_defaults(action="create")
+    profile_create_parser.add_argument("name", help="Your name.")
+    profile_create_parser.add_argument("extra_infos", nargs="*", help="Extra information in the pattern of [title] [content] [title] [content] ...")
+    profile_create_parser.add_argument("--key_dir", required=True, help="The directory containing the public key.")
+
+    profile_view_parser = profile_subparser.add_parser("view", help="Displays the voter profile.")
+    profile_view_parser.set_defaults(action="view")
+
+    profile_edit_parser = profile_subparser.add_parser("edit", help="Edits the voter profile.")
+    profile_edit_parser.set_defaults(action="edit")
+    profile_edit_parser.add_argument("--name", help="Your name.")
+    profile_edit_parser.add_argument("--extra_infos", nargs="*", help="Extra information in the pattern of [title] [content] [title] [content] ...")
+    profile_edit_parser.add_argument("--key_dir", help="The directory containing the public key.")
+
+    poll_parser = main_subparser.add_parser("poll", help="Actions related to polls.")
+    poll_parser.set_defaults(mode="poll")
+    poll_parser.add_argument("path", help="The path to the poll.")
+    poll_subparser = poll_parser.add_subparsers(title="action")
+
+    poll_view_parser = poll_subparser.add_parser("view", help="Displays the poll.")
+    poll_view_parser.set_defaults(action="view")
+
+    ballot_parser = main_subparser.add_parser("ballot", help="Actions related to ballots.")
+    ballot_parser.set_defaults(mode="ballot")
+    ballot_parser.add_argument("path", help="The path to the ballot.")
+    ballot_subparser = ballot_parser.add_subparsers(title="action")
+
+    ballot_create_parser = ballot_subparser.add_parser("create", help="Creates a ballot. Remember to sign the ballot afterwards.")
+    ballot_create_parser.set_defaults(action="create")
+    ballot_create_parser.add_argument("responses", nargs="*", help="The response to each question.")
+
+    ballot_view_parser = ballot_subparser.add_parser("view", help="Views the ballot.")
+    ballot_view_parser.set_defaults(action="view")
+    ballot_view_parser.add_argument("--poll_path", help="The path to the corresponding poll.")
+
+    ballot_edit_parser = ballot_subparser.add_parser("edit", help="Edits the ballot. Remember to sign the ballot again afterwards.")
+    ballot_edit_parser.set_defaults(action="edit")
+    ballot_edit_parser.add_argument("responses", nargs="*", help="The response to each question.")
+
+    ballot_sign_parser = ballot_subparser.add_parser("sign", help="Signs the ballot.")
+    ballot_sign_parser.set_defaults(action="sign")
+    ballot_sign_parser.add_argument("poll_path", help="The path to the corresponding poll.")
+    ballot_sign_parser.add_argument("key_dir", help="The directory containing the public and private keys.")
+
+    args = arg_parser.parse_args()
+
+
+def cli_() -> None:
+    arg_parser = argparse.ArgumentParser()
     subparsers = arg_parser.add_subparsers()
 
     keygen_parser = subparsers.add_parser("keygen", help="Generates public/private key pairs.")
