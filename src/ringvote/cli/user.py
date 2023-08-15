@@ -130,21 +130,27 @@ def cli() -> None:
                 if args.poll_path:
                     with open(args.poll_path, "rb") as f:
                         poll = Poll.load(Poll_.FromString(f.read()))
-                    for i, question in enumerate(poll.questions):
-                        print("Q{0:d}: {1:s}".format(i + 1, question.question))
-                        for j, choice in enumerate(question.choices):
-                            if j == ballot.responses[i]:
-                                print(">> {0:d}. {1:s} <<".format(j, choice))
+                    if ballot.check(poll):
+                        for i, question in enumerate(poll.questions):
+                            print("Q{0:d}: {1:s}".format(i + 1, question.question))
+                            for j, choice in enumerate(question.choices):
+                                if j == ballot.responses[i]:
+                                    print(">> {0:d}. {1:s} <<".format(j, choice))
+                                else:
+                                    print("{0:d}. {1:s}".format(j, choice))
+                            print()
+                        if ballot.signed:
+                            if ballot.verify(poll):
+                                print("Ballot signed with a valid signature.")
                             else:
-                                print("{0:d}. {1:s}".format(j, choice))
-                        print()
-                    if ballot.signed:
-                        if ballot.verify(poll):
-                            print("Ballot signed with a valid signature.")
+                                print("WARNING: SIGNATURE INVALID. PLEASE RE-SIGN BEFORE SUBMITTING!")
+                                print("IF SUBMITTED, THIS BALLOT WILL NOT BE COUNTED!")
                         else:
-                            print("WARNING: SIGNATURE INVALID. PLEASE RE-SIGN BEFORE SUBMITTING!")
+                            print("WARNING: BALLOT UNSIGNED. REMEMBER TO SIGN BEFORE SUBMITTING!")
+                            print("IF SUBMITTED, THIS BALLOT WILL NOT BE COUNTED!")
                     else:
-                        print("WARNING: BALLOT UNSIGNED. REMEMBER TO SIGN BEFORE SUBMITTING!")
+                        print("WARNING: RESPONSES INVALID!")
+                        print("IF SUBMITTED, THIS BALLOT WILL NOT BE COUNTED!")
                 else:
                     for i, response in enumerate(ballot.responses):
                         print("Q{0:d}: Option {1:d}".format(i, response))
@@ -152,6 +158,7 @@ def cli() -> None:
                         print("Ballot signed.")
                     else:
                         print("WARNING: BALLOT UNSIGNED. REMEMBER TO SIGN BEFORE SUBMITTING!")
+                        print("IF SUBMITTED, THIS BALLOT WILL NOT BE COUNTED!")
             elif args.action == "sign":
                 with open(args.poll_path, "rb") as f:
                     poll = Poll.load(Poll_.FromString(f.read()))
@@ -159,6 +166,10 @@ def cli() -> None:
                     public_key = f.read()
                 with open(os.path.join(args.key_dir, "private.key"), "rb") as f:
                     private_key = f.read()
-                ballot.sign(poll, public_key, private_key)
-                with open(args.path, "wb") as f:
-                    f.write(ballot.dump().SerializeToString())
+                if ballot.check(poll):
+                    ballot.sign(poll, public_key, private_key)
+                    with open(args.path, "wb") as f:
+                        f.write(ballot.dump().SerializeToString())
+                else:
+                    print("WARNING: RESPONSES INVALID!")
+                    print("IF SUBMITTED, THIS BALLOT WILL NOT BE COUNTED!")

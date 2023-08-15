@@ -21,6 +21,19 @@ class Ballot:
         self.responses = responses
         self.signature = signature
 
+    def check(self, poll: Poll) -> bool:
+        """Checks if the responses are valid. THIS DOES NOT DETERMINE WHETHER THE SIGNATURE IS VALID!
+
+        :param poll: The corresponding poll.
+        :return: True if the responses are valid, false otherwise.
+        """
+        if len(self.responses) != len(poll.questions):
+            return False
+        for response, question in zip(self.responses, poll.questions):
+            if response < 0 or response >= len(question.choices):
+                return False
+        return True
+
     @property
     def signed(self) -> bool:
         """Whether the ballot is signed.

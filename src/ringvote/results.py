@@ -66,6 +66,8 @@ class Result:
         for i, ballot in enumerate(self.ballots):
             if only_verified and status[i] != BallotStatus.VERIFIED:
                 continue
+            if not ballot.check(self.poll):
+                continue
             for j in range(len(ballot.responses)):
                 tally[j][ballot.responses[j]] += 1
         return tally
