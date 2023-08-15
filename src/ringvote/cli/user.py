@@ -54,49 +54,16 @@ def cli() -> None:
 
     ballot_create_parser = ballot_subparser.add_parser("create", help="Creates a ballot. Remember to sign the ballot afterwards.")
     ballot_create_parser.set_defaults(action="create")
-    ballot_create_parser.add_argument("responses", nargs="*", help="The response to each question.")
+    ballot_create_parser.add_argument("responses", nargs="*", type=int, help="The response to each question.")
 
     ballot_view_parser = ballot_subparser.add_parser("view", help="Views the ballot.")
     ballot_view_parser.set_defaults(action="view")
     ballot_view_parser.add_argument("--poll_path", help="The path to the corresponding poll.")
 
-    ballot_edit_parser = ballot_subparser.add_parser("edit", help="Edits the ballot. Remember to sign the ballot again afterwards.")
-    ballot_edit_parser.set_defaults(action="edit")
-    ballot_edit_parser.add_argument("responses", nargs="*", help="The response to each question.")
-
     ballot_sign_parser = ballot_subparser.add_parser("sign", help="Signs the ballot.")
     ballot_sign_parser.set_defaults(action="sign")
     ballot_sign_parser.add_argument("poll_path", help="The path to the corresponding poll.")
     ballot_sign_parser.add_argument("key_dir", help="The directory containing the public and private keys.")
-
-    args = arg_parser.parse_args()
-
-
-def cli_() -> None:
-    arg_parser = argparse.ArgumentParser()
-    subparsers = arg_parser.add_subparsers()
-
-    keygen_parser = subparsers.add_parser("keygen", help="Generates public/private key pairs.")
-    keygen_parser.set_defaults(mode="keygen")
-    keygen_parser.add_argument("-o", "--out_dir", default=".", help="The directory to output the keys to.")
-
-    register_parser = subparsers.add_parser("register", help="Create a voter profile.")
-    register_parser.set_defaults(mode="register")
-    register_parser.add_argument("key_dir", help="The directory containing the keys. Only the public key is used.")
-    register_parser.add_argument("voter_name", help="Your name.")
-    register_parser.add_argument("extra_infos", nargs="+", help="Extra information in the pattern of [title] [content] [title] [content] ...")
-    register_parser.add_argument("-o", "--out_path", required=True, help="The path to output the profile to.")
-
-    view_parser = subparsers.add_parser("view", help="View the poll.")
-    view_parser.set_defaults(mode="view")
-    view_parser.add_argument("poll", help="Path to the poll file.")
-
-    vote_parser = subparsers.add_parser("vote", help="Vote on a poll.")
-    vote_parser.set_defaults(mode="vote")
-    vote_parser.add_argument("poll", help="Path to the poll file.")
-    vote_parser.add_argument("key_dir", help="The directory containing the keys.")
-    vote_parser.add_argument("responses", nargs="+", type=int, help="The response to each question.")
-    vote_parser.add_argument("-o", "--out_path", required=True, help="The path to output the ballot to.")
 
     args = arg_parser.parse_args()
 
@@ -107,34 +74,91 @@ def cli_() -> None:
             f.write(public_key)
         with open(os.path.join(args.out_dir, "private.key"), "wb") as f:
             f.write(private_key)
-    elif args.mode == "register":
-        with open(os.path.join(args.key_dir, "public.key"), "rb") as f:
-            public_key = f.read()
-        assert len(args.extra_infos) % 2 == 0
-        extra_infos = {}
-        for i in range(len(args.extra_infos) // 2):
-            extra_infos[args.extra_infos[2 * i]] = args.extra_infos[2 * i + 1]
-        voter = Voter(args.voter_name, extra_infos, public_key)
-        with open(args.out_path, "wb") as f:
-            f.write(voter.dump().SerializeToString())
-    elif args.mode == "view":
-        with open(args.poll, "rb") as f:
+    elif args.mode == "profile":
+        if args.action == "create":
+            assert len(args.extra_infos) % 2 == 0
+            extra_infos = {}
+            for i in range(len(args.extra_infos) // 2):
+                extra_infos[args.extra_infos[2 * i]] = args.extra_infos[2 * i + 1]
+            with open(os.path.join(args.key_dir, "public.key"), "rb") as f:
+                public_key = f.read()
+            voter = Voter(args.name, extra_infos, public_key)
+            with open(args.path, "wb") as f:
+                f.write(voter.dump().SerializeToString())
+        else:
+            with open(args.path, "rb") as f:
+                voter = Voter.load(Voter_.FromString(f.read()))
+            if args.action == "view":
+                print("Name: {0:s}".format(voter.name))
+                for k, v in voter.extra_infos.items():
+                    print("{0:s}: {1:s}".format(k, v))
+            elif args.action == "edit":
+                if args.name:
+                    voter.name = args.name
+                if args.extra_infos:
+                    assert len(args.extra_infos) % 2 == 0
+                    extra_infos = voter.extra_infos
+                    for i in range(len(args.extra_infos) // 2):
+                        extra_infos[args.extra_infos[2 * i]] = args.extra_infos[2 * i + 1]
+                    voter.extra_infos = extra_infos
+                if args.key_dir:
+                    with open(os.path.join(args.key_dir, "public.key"), "rb") as f:
+                        public_key = f.read()
+                    voter.public_key = public_key
+                with open(args.path, "wb") as f:
+                    f.write(voter.dump().SerializeToString())
+    elif args.mode == "poll":
+        with open(args.path, "rb") as f:
             poll = Poll.load(Poll_.FromString(f.read()))
-        print(poll.title)
-        print()
-        for i, question in enumerate(poll.questions):
-            print("Q{0:d}: {1:s}".format(i + 1, question.question))
-            for j, choice in enumerate(question.choices):
-                print("{0:d}. {1:s}".format(j, choice))
+        if args.action == "view":
+            print(poll.title)
             print()
-    elif args.mode == "vote":
-        with open(args.poll, "rb") as f:
-            poll = Poll.load(Poll_.FromString(f.read()))
-        with open(os.path.join(args.key_dir, "public.key"), "rb") as f:
-            public_key = f.read()
-        with open(os.path.join(args.key_dir, "private.key"), "rb") as f:
-            private_key = f.read()
-        ballot = Ballot(args.responses)
-        ballot.sign(poll, public_key, private_key)
-        with open(args.out_path, "wb") as f:
-            f.write(ballot.dump().SerializeToString())
+            for i, question in enumerate(poll.questions):
+                print("Q{0:d}: {1:s}".format(i + 1, question.question))
+                for j, choice in enumerate(question.choices):
+                    print("{0:d}. {1:s}".format(j, choice))
+                print()
+    elif args.mode == "ballot":
+        if args.action == "create":
+            ballot = Ballot(args.responses)
+            with open(args.path, "wb") as f:
+                f.write(ballot.dump().SerializeToString())
+        else:
+            with open(args.path, "rb") as f:
+                ballot = Ballot.load(Ballot_.FromString(f.read()))
+            if args.action == "view":
+                if args.poll_path:
+                    with open(args.poll_path, "rb") as f:
+                        poll = Poll.load(Poll_.FromString(f.read()))
+                    for i, question in enumerate(poll.questions):
+                        print("Q{0:d}: {1:s}".format(i + 1, question.question))
+                        for j, choice in enumerate(question.choices):
+                            if j == ballot.responses[i]:
+                                print(">> {0:d}. {1:s} <<".format(j, choice))
+                            else:
+                                print("{0:d}. {1:s}".format(j, choice))
+                        print()
+                    if ballot.signed:
+                        if ballot.verify(poll):
+                            print("Ballot signed with a valid signature.")
+                        else:
+                            print("WARNING: SIGNATURE INVALID. PLEASE RE-SIGN BEFORE SUBMITTING!")
+                    else:
+                        print("WARNING: BALLOT UNSIGNED. REMEMBER TO SIGN BEFORE SUBMITTING!")
+                else:
+                    for i, response in enumerate(ballot.responses):
+                        print("Q{0:d}: Option {1:d}".format(i, response))
+                    if ballot.signed:
+                        print("Ballot signed.")
+                    else:
+                        print("WARNING: BALLOT UNSIGNED. REMEMBER TO SIGN BEFORE SUBMITTING!")
+            elif args.action == "sign":
+                with open(args.poll_path, "rb") as f:
+                    poll = Poll.load(Poll_.FromString(f.read()))
+                with open(os.path.join(args.key_dir, "public.key"), "rb") as f:
+                    public_key = f.read()
+                with open(os.path.join(args.key_dir, "private.key"), "rb") as f:
+                    private_key = f.read()
+                ballot.sign(poll, public_key, private_key)
+                with open(args.path, "wb") as f:
+                    f.write(ballot.dump().SerializeToString())
