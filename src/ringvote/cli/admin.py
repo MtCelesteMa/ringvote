@@ -4,9 +4,11 @@ from ..ds.voters import Voter, Voter_
 from ..ds.polls import Poll, Poll_
 from ..ds.questions import Question
 from ..ds.ballots import Ballot, Ballot_
+from ..results import Result, BallotStatus
 
 import os
 import argparse
+import glob
 
 
 def cli() -> None:
@@ -62,3 +64,66 @@ def cli() -> None:
     poll_results_parser.add_argument("ballots_path", help="Glob pattern of the paths to the ballots.")
 
     args = arg_parser.parse_args()
+
+    if args.mode == "poll":
+        if args.action == "create":
+            poll = Poll(args.title, [], [])
+            with open(args.path, "wb") as f:
+                f.write(poll.dump().SerializeToString())
+        else:
+            with open(args.path, "rb") as f:
+                poll = Poll.load(Poll_.FromString(f.read()))
+            if args.action == "add":
+                if args.item == "question":
+                    poll.questions.append(Question(args.question, args.choices))
+                elif args.item == "voter":
+                    profiles = glob.glob(args.profile_path)
+                    for profile in profiles:
+                        with open(profile, "rb") as f:
+                            voter = Voter.load(Voter_.FromString(f.read()))
+                        poll.voters.append(voter)
+                with open(args.path, "wb") as f:
+                    f.write(poll.dump().SerializeToString())
+            elif args.action == "edit":
+                if args.item == "question":
+                    if args.question:
+                        poll.questions[args.index - 1].question = args.question
+                    if args.choices:
+                        poll.questions[args.index - 1].choices = args.choices
+                with open(args.path, "wb") as f:
+                    f.write(poll.dump().SerializeToString())
+            elif args.action == "remove":
+                if args.item == "question":
+                    poll.questions.pop(args.index - 1)
+                elif args.item == "voter":
+                    for i, voter in enumerate(poll.voters):
+                        if voter.name == args.voter_name:
+                            poll.voters.pop(i)
+                            break
+                with open(args.path, "wb") as f:
+                    f.write(poll.dump().SerializeToString())
+            elif args.action == "results":
+                ballots = []
+                for ballot_path in glob.glob(args.ballots_path):
+                    with open(ballot_path, "rb") as f:
+                        ballots.append(Ballot.load(Ballot_.FromString(f.read())))
+                result = Result(poll, ballots)
+
+                print("Results:")
+                tally = result.tally_votes()
+                for i, question in enumerate(poll.questions):
+                    print("Q{0:d}: {1:s}".format(i + 1, question.question))
+                    for j, choice in enumerate(question.choices):
+                        print("{0:d}. {1:s} : {2:d} votes".format(j, choice, tally[i][j]))
+                    print()
+
+                print("Fraudulent Ballots:\n")
+                status, names = result.verify_all()
+                for i, ballot in enumerate(result.ballots):
+                    if status[i] == BallotStatus.VERIFIED:
+                        continue
+                    print("Responses: {0:s}".format(str(ballot.responses)))
+                    print("Status: {0:s}".format(status[i]))
+                    if status[i] == BallotStatus.DUPLICATE:
+                        print("Voter name: {0:s}".format(names[i]))
+                    print()
