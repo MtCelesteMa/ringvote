@@ -46,6 +46,7 @@ def cli() -> None:
 
     poll_view_parser = poll_subparser.add_parser("view", help="Displays the poll.")
     poll_view_parser.set_defaults(action="view")
+    poll_view_parser.add_argument("-d", "--display_voters", action="store_true", help="Whether to display voters.")
 
     ballot_parser = main_subparser.add_parser("ballot", help="Actions related to ballots.")
     ballot_parser.set_defaults(mode="ballot")
@@ -118,6 +119,10 @@ def cli() -> None:
                 for j, choice in enumerate(question.choices):
                     print("{0:d}. {1:s}".format(j, choice))
                 print()
+            if args.display_voters:
+                print("Voters")
+                for i, voter in enumerate(poll.voters):
+                    print("{0:d}. {1:s}".format(i + 1, voter.name))
     elif args.mode == "ballot":
         if args.action == "create":
             ballot = Ballot(args.responses)
