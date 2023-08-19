@@ -1,8 +1,8 @@
 """Voter command line interface."""
 
-from ..ds.voters import Voter, Voter_
-from ..ds.polls import Poll, Poll_
-from ..ds.ballots import Ballot, Ballot_
+from ..ds_old.voters import Voter, Voter_
+from ..ds_old.polls import Poll, Poll_
+from ..ds_old.ballots import Ballot, Ballot_
 from .. import utils
 
 import os

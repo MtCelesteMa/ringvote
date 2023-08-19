@@ -7,7 +7,6 @@ import collections.abc
 import google.protobuf.descriptor
 import google.protobuf.internal.containers
 import google.protobuf.message
-from . import questions_pb2
 import sys
 from . import voter_pb2
 
@@ -22,19 +21,38 @@ DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 class Poll(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
+    @typing_extensions.final
+    class Question(google.protobuf.message.Message):
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+        QUESTION_FIELD_NUMBER: builtins.int
+        CHOICES_FIELD_NUMBER: builtins.int
+        question: builtins.str
+        @property
+        def choices(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]: ...
+        def __init__(
+            self,
+            *,
+            question: builtins.str | None = ...,
+            choices: collections.abc.Iterable[builtins.str] | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["_question", b"_question", "question", b"question"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["_question", b"_question", "choices", b"choices", "question", b"question"]) -> None: ...
+        def WhichOneof(self, oneof_group: typing_extensions.Literal["_question", b"_question"]) -> typing_extensions.Literal["question"] | None: ...
+
     TITLE_FIELD_NUMBER: builtins.int
     QUESTIONS_FIELD_NUMBER: builtins.int
     VOTERS_FIELD_NUMBER: builtins.int
     title: builtins.str
     @property
-    def questions(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[questions_pb2.Question]: ...
+    def questions(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___Poll.Question]: ...
     @property
     def voters(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[voter_pb2.Voter]: ...
     def __init__(
         self,
         *,
         title: builtins.str | None = ...,
-        questions: collections.abc.Iterable[questions_pb2.Question] | None = ...,
+        questions: collections.abc.Iterable[global___Poll.Question] | None = ...,
         voters: collections.abc.Iterable[voter_pb2.Voter] | None = ...,
     ) -> None: ...
     def HasField(self, field_name: typing_extensions.Literal["_title", b"_title", "title", b"title"]) -> builtins.bool: ...

@@ -11,10 +11,9 @@ from google.protobuf.internal import builder as _builder
 _sym_db = _symbol_database.Default()
 
 
-from . import questions_pb2 as questions__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0c\x62\x61llot.proto\x12\x08ringvote\x1a\x0fquestions.proto\"}\n\x06\x42\x61llot\x12\x17\n\npoll_title\x18\x01 \x01(\tH\x00\x88\x01\x01\x12%\n\tresponses\x18\x02 \x03(\x0b\x32\x12.ringvote.Response\x12\x16\n\tsignature\x18\x03 \x01(\x0cH\x01\x88\x01\x01\x42\r\n\x0b_poll_titleB\x0c\n\n_signatureb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0c\x62\x61llot.proto\x12\x08ringvote\"A\n\x06\x42\x61llot\x12\x11\n\tresponses\x18\x02 \x03(\x05\x12\x16\n\tsignature\x18\x03 \x01(\x0cH\x00\x88\x01\x01\x42\x0c\n\n_signatureb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -22,6 +21,6 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'ballot_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  _globals['_BALLOT']._serialized_start=43
-  _globals['_BALLOT']._serialized_end=168
+  _globals['_BALLOT']._serialized_start=26
+  _globals['_BALLOT']._serialized_end=91
 # @@protoc_insertion_point(module_scope)

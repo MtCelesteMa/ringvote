@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package ringvote;
+
+enum QuestionType {
+    QUESTION_TYPE_UNSPECIFIED = 0;
+
+    QUESTION_TYPE_INTEGER = 1;
+    QUESTION_TYPE_DECIMAL = 2;
+    QUESTION_TYPE_STRING = 3;
+    QUESTION_TYPE_BYTES = 4;
+
+    QUESTION_TYPE_SINGLE_CHOICE = 5;
+    QUESTION_TYPE_SINGLE_CHOICE_ALLOW_OTHER = 6;
+    QUESTION_TYPE_MULTIPLE_CHOICE = 7;
+    QUESTION_TYPE_MULTIPLE_CHOICE_ALLOW_OTHER = 8;
+}
+
+message Question {
+    optional string question = 1;
+    optional ringvote.QuestionType type = 2;
+
+    repeated string choices = 3;
+}
+
+message Response {
+    optional ringvote.QuestionType type = 1;
+
+    optional int64 int_field = 2;
+    optional double double_field = 3;
+    optional string string_field = 4;
+    optional bytes bytes_field = 5;
+}

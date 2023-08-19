@@ -1,9 +1,9 @@
 """Administrative command line interface."""
 
-from ..ds.voters import Voter, Voter_
-from ..ds.polls import Poll, Poll_
-from ..ds.questions import Question
-from ..ds.ballots import Ballot, Ballot_
+from ..ds_old.voters import Voter, Voter_
+from ..ds_old.polls import Poll, Poll_
+from ..ds_old.questions import Question
+from ..ds_old.ballots import Ballot, Ballot_
 from ..results import Result, BallotStatus
 
 import os

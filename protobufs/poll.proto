@@ -2,15 +2,11 @@ syntax = "proto3";
 
 package ringvote;
 
+import "questions.proto";
 import "voter.proto";
 
 message Poll {
-    message Question {
-        optional string question = 1;
-        repeated string choices = 2;
-    }
-
     optional string title = 1;
-    repeated Question questions = 2;
-    repeated Voter voters = 3;
+    repeated ringvote.Question questions = 2;
+    repeated ringvote.Voter voters = 3;
 }

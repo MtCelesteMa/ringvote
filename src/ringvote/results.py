@@ -1,7 +1,7 @@
 """Computes the results of a poll."""
 
-from .ds.polls import Poll
-from .ds.ballots import Ballot
+from .ds_old.polls import Poll
+from .ds_old.ballots import Ballot
 
 import enum
 

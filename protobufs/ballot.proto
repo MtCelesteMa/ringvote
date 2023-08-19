@@ -2,7 +2,10 @@ syntax = "proto3";
 
 package ringvote;
 
+import "questions.proto";
+
 message Ballot {
-    repeated int32 responses = 2;
+    optional string poll_title = 1;
+    repeated ringvote.Response responses = 2;
     optional bytes signature = 3;
 }
