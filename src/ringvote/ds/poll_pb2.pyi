@@ -7,7 +7,7 @@ import collections.abc
 import google.protobuf.descriptor
 import google.protobuf.internal.containers
 import google.protobuf.message
-from . import questions_pb2
+from . import question_pb2
 import sys
 from . import voter_pb2
 
@@ -27,14 +27,14 @@ class Poll(google.protobuf.message.Message):
     VOTERS_FIELD_NUMBER: builtins.int
     title: builtins.str
     @property
-    def questions(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[questions_pb2.Question]: ...
+    def questions(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[question_pb2.Question]: ...
     @property
     def voters(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[voter_pb2.Voter]: ...
     def __init__(
         self,
         *,
         title: builtins.str | None = ...,
-        questions: collections.abc.Iterable[questions_pb2.Question] | None = ...,
+        questions: collections.abc.Iterable[question_pb2.Question] | None = ...,
         voters: collections.abc.Iterable[voter_pb2.Voter] | None = ...,
     ) -> None: ...
     def HasField(self, field_name: typing_extensions.Literal["_title", b"_title", "title", b"title"]) -> builtins.bool: ...

@@ -7,7 +7,7 @@ import collections.abc
 import google.protobuf.descriptor
 import google.protobuf.internal.containers
 import google.protobuf.message
-from . import questions_pb2
+from . import question_pb2
 import sys
 import typing
 
@@ -27,13 +27,13 @@ class Ballot(google.protobuf.message.Message):
     SIGNATURE_FIELD_NUMBER: builtins.int
     poll_title: builtins.str
     @property
-    def responses(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[questions_pb2.Response]: ...
+    def responses(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[question_pb2.Response]: ...
     signature: builtins.bytes
     def __init__(
         self,
         *,
         poll_title: builtins.str | None = ...,
-        responses: collections.abc.Iterable[questions_pb2.Response] | None = ...,
+        responses: collections.abc.Iterable[question_pb2.Response] | None = ...,
         signature: builtins.bytes | None = ...,
     ) -> None: ...
     def HasField(self, field_name: typing_extensions.Literal["_poll_title", b"_poll_title", "_signature", b"_signature", "poll_title", b"poll_title", "signature", b"signature"]) -> builtins.bool: ...

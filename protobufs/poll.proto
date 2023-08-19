@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package ringvote;
 
-import "questions.proto";
+import "question.proto";
 import "voter.proto";
 
 message Poll {
