@@ -11,10 +11,10 @@ from google.protobuf.internal import builder as _builder
 _sym_db = _symbol_database.Default()
 
 
-from . import question_pb2 as question__pb2
+from . import response_pb2 as response__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0c\x62\x61llot.proto\x12\x08ringvote\x1a\x0equestion.proto\"}\n\x06\x42\x61llot\x12\x17\n\npoll_title\x18\x01 \x01(\tH\x00\x88\x01\x01\x12%\n\tresponses\x18\x02 \x03(\x0b\x32\x12.ringvote.Response\x12\x16\n\tsignature\x18\x03 \x01(\x0cH\x01\x88\x01\x01\x42\r\n\x0b_poll_titleB\x0c\n\n_signatureb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0c\x62\x61llot.proto\x12\x08ringvote\x1a\x0eresponse.proto\"}\n\x06\x42\x61llot\x12\x17\n\npoll_title\x18\x01 \x01(\tH\x00\x88\x01\x01\x12%\n\tresponses\x18\x02 \x03(\x0b\x32\x12.ringvote.Response\x12\x16\n\tsignature\x18\x03 \x01(\x0cH\x01\x88\x01\x01\x42\r\n\x0b_poll_titleB\x0c\n\n_signatureb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)

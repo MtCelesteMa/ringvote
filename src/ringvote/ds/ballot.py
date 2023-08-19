@@ -1,7 +1,7 @@
 """Objects representing ballots."""
 
 from .ballot_pb2 import Ballot as Ballot_
-from .question import Response
+from .response import Response
 
 import typing
 

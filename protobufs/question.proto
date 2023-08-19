@@ -22,12 +22,3 @@ message Question {
 
     repeated string choices = 3;
 }
-
-message Response {
-    optional ringvote.QuestionType type = 1;
-
-    optional int64 int_field = 2;
-    optional double double_field = 3;
-    optional string string_field = 4;
-    optional bytes bytes_field = 5;
-}

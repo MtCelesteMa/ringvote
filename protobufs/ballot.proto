@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package ringvote;
 
-import "question.proto";
+import "response.proto";
 
 message Ballot {
     optional string poll_title = 1;
