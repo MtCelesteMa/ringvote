@@ -19,7 +19,7 @@ class Response:
         """Constructs a Response object.
 
         :param response_type: The type of the response.
-        :param int_field: An integer. Optional
+        :param int_field: An integer. Optional.
         :param dec_field: A float. Optional.
         :param string_field: A string. Optional.
         :param bytes_field: A bytestring. Optional.
@@ -50,6 +50,9 @@ class Response:
         """
         return self.dump().SerializeToString()
 
+    def __bytes__(self) -> bytes:
+        return str(self.int_field).encode() + str(self.dec_field).encode() + self.string_field.encode() + self.bytes_field
+
     @classmethod
     def load(cls, response: Response_) -> typing.Self:
         """Imports the response from a protocol buffer.
@@ -73,4 +76,3 @@ class Response:
         :return: A Response object.
         """
         return cls.load(Response_.FromString(response))
-
