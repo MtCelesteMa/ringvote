@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ringvote"
-version = "0.1.0-dev"
+version = "0.1.0"
 authors = [
     { name="Celeste Ma", email="gerry.y.ma@gmail.com" },
 ]
