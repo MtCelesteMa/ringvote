@@ -22,42 +22,37 @@ class Voter(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
     @typing_extensions.final
-    class ExtraInfo(google.protobuf.message.Message):
+    class ExtraInfoEntry(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-        TITLE_FIELD_NUMBER: builtins.int
-        CONTENT_FIELD_NUMBER: builtins.int
-        title: builtins.str
-        content: builtins.str
+        KEY_FIELD_NUMBER: builtins.int
+        VALUE_FIELD_NUMBER: builtins.int
+        key: builtins.str
+        value: builtins.str
         def __init__(
             self,
             *,
-            title: builtins.str | None = ...,
-            content: builtins.str | None = ...,
+            key: builtins.str = ...,
+            value: builtins.str = ...,
         ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal["_content", b"_content", "_title", b"_title", "content", b"content", "title", b"title"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal["_content", b"_content", "_title", b"_title", "content", b"content", "title", b"title"]) -> None: ...
-        @typing.overload
-        def WhichOneof(self, oneof_group: typing_extensions.Literal["_content", b"_content"]) -> typing_extensions.Literal["content"] | None: ...
-        @typing.overload
-        def WhichOneof(self, oneof_group: typing_extensions.Literal["_title", b"_title"]) -> typing_extensions.Literal["title"] | None: ...
+        def ClearField(self, field_name: typing_extensions.Literal["key", b"key", "value", b"value"]) -> None: ...
 
     NAME_FIELD_NUMBER: builtins.int
-    EXTRA_INFOS_FIELD_NUMBER: builtins.int
+    EXTRA_INFO_FIELD_NUMBER: builtins.int
     PUBLIC_KEY_FIELD_NUMBER: builtins.int
     name: builtins.str
     @property
-    def extra_infos(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___Voter.ExtraInfo]: ...
+    def extra_info(self) -> google.protobuf.internal.containers.ScalarMap[builtins.str, builtins.str]: ...
     public_key: builtins.bytes
     def __init__(
         self,
         *,
         name: builtins.str | None = ...,
-        extra_infos: collections.abc.Iterable[global___Voter.ExtraInfo] | None = ...,
+        extra_info: collections.abc.Mapping[builtins.str, builtins.str] | None = ...,
         public_key: builtins.bytes | None = ...,
     ) -> None: ...
     def HasField(self, field_name: typing_extensions.Literal["_name", b"_name", "_public_key", b"_public_key", "name", b"name", "public_key", b"public_key"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["_name", b"_name", "_public_key", b"_public_key", "extra_infos", b"extra_infos", "name", b"name", "public_key", b"public_key"]) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["_name", b"_name", "_public_key", b"_public_key", "extra_info", b"extra_info", "name", b"name", "public_key", b"public_key"]) -> None: ...
     @typing.overload
     def WhichOneof(self, oneof_group: typing_extensions.Literal["_name", b"_name"]) -> typing_extensions.Literal["name"] | None: ...
     @typing.overload

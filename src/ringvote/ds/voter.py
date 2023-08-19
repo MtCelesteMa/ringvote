@@ -7,15 +7,15 @@ import typing
 
 class Voter:
     """An object representing a voter."""
-    def __init__(self, name: str, extra_infos: dict[str, str], public_key: bytes) -> None:
+    def __init__(self, name: str, extra_info: dict[str, str], public_key: bytes) -> None:
         """Constructs a Voter object.
 
         :param name: The name of the voter.
-        :param extra_infos: Extra information about the voter.
+        :param extra_info: Extra information about the voter.
         :param public_key: The voter's public key.
         """
         self.name = name
-        self.extra_infos = extra_infos
+        self.extra_info = extra_info
         self.public_key = public_key
 
     def dump(self) -> Voter_:
@@ -25,10 +25,7 @@ class Voter:
         """
         return Voter_(
             name=self.name,
-            extra_infos=[
-                Voter_.ExtraInfo(title=title, content=content)
-                for title, content in self.extra_infos.items()
-            ],
+            extra_info=self.extra_info,
             public_key=self.public_key
         )
 
@@ -48,7 +45,7 @@ class Voter:
         """
         return cls(
             voter.name,
-            {extra.title: extra.content for extra in voter.extra_infos},
+            {k: v for k, v in voter.extra_info.items()},
             voter.public_key
         )
 

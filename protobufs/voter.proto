@@ -3,12 +3,7 @@ syntax = "proto3";
 package ringvote;
 
 message Voter {
-    message ExtraInfo {
-        optional string title = 1;
-        optional string content = 2;
-    }
-
     optional string name = 1;
-    repeated ExtraInfo extra_infos = 2;
+    map<string, string> extra_info = 2;
     optional bytes public_key = 3;
 }
