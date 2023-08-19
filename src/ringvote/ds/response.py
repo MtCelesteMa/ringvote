@@ -51,7 +51,10 @@ class Response:
         return self.dump().SerializeToString()
 
     def __bytes__(self) -> bytes:
-        return str(self.int_field).encode() + str(self.dec_field).encode() + self.string_field.encode() + self.bytes_field
+        return str(self.int_field).encode() \
+            + str(self.dec_field).encode() \
+            + self.string_field.encode() if self.string_field else b"" \
+            + self.bytes_field if self.bytes_field else b""
 
     @classmethod
     def load(cls, response: Response_) -> typing.Self:
