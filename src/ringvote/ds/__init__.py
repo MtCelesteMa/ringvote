@@ -8,7 +8,7 @@ from .poll_pb2 import Poll as Poll_
 
 from .voter import Voter
 from .question import QuestionType, Question
-from .response import Response
+from .response import Field, Response
 from .ballot import Ballot
 from .poll import Poll
 

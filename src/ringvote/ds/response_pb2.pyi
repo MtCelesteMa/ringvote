@@ -3,11 +3,12 @@
 isort:skip_file
 """
 import builtins
+import collections.abc
 import google.protobuf.descriptor
+import google.protobuf.internal.containers
 import google.protobuf.message
 from . import question_pb2
 import sys
-import typing
 
 if sys.version_info >= (3, 8):
     import typing as typing_extensions
@@ -20,36 +21,43 @@ DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 class Response(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
+    @typing_extensions.final
+    class Field(google.protobuf.message.Message):
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+        INT_FIELD_FIELD_NUMBER: builtins.int
+        DECIMAL_FIELD_FIELD_NUMBER: builtins.int
+        STRING_FIELD_FIELD_NUMBER: builtins.int
+        BYTES_FIELD_FIELD_NUMBER: builtins.int
+        int_field: builtins.int
+        decimal_field: builtins.float
+        string_field: builtins.str
+        bytes_field: builtins.bytes
+        def __init__(
+            self,
+            *,
+            int_field: builtins.int = ...,
+            decimal_field: builtins.float = ...,
+            string_field: builtins.str = ...,
+            bytes_field: builtins.bytes = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing_extensions.Literal["bytes_field", b"bytes_field", "decimal_field", b"decimal_field", "field", b"field", "int_field", b"int_field", "string_field", b"string_field"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing_extensions.Literal["bytes_field", b"bytes_field", "decimal_field", b"decimal_field", "field", b"field", "int_field", b"int_field", "string_field", b"string_field"]) -> None: ...
+        def WhichOneof(self, oneof_group: typing_extensions.Literal["field", b"field"]) -> typing_extensions.Literal["int_field", "decimal_field", "string_field", "bytes_field"] | None: ...
+
     TYPE_FIELD_NUMBER: builtins.int
-    INT_FIELD_FIELD_NUMBER: builtins.int
-    DOUBLE_FIELD_FIELD_NUMBER: builtins.int
-    STRING_FIELD_FIELD_NUMBER: builtins.int
-    BYTES_FIELD_FIELD_NUMBER: builtins.int
+    FIELDS_FIELD_NUMBER: builtins.int
     type: question_pb2.QuestionType.ValueType
-    int_field: builtins.int
-    double_field: builtins.float
-    string_field: builtins.str
-    bytes_field: builtins.bytes
+    @property
+    def fields(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___Response.Field]: ...
     def __init__(
         self,
         *,
         type: question_pb2.QuestionType.ValueType | None = ...,
-        int_field: builtins.int | None = ...,
-        double_field: builtins.float | None = ...,
-        string_field: builtins.str | None = ...,
-        bytes_field: builtins.bytes | None = ...,
+        fields: collections.abc.Iterable[global___Response.Field] | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["_bytes_field", b"_bytes_field", "_double_field", b"_double_field", "_int_field", b"_int_field", "_string_field", b"_string_field", "_type", b"_type", "bytes_field", b"bytes_field", "double_field", b"double_field", "int_field", b"int_field", "string_field", b"string_field", "type", b"type"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["_bytes_field", b"_bytes_field", "_double_field", b"_double_field", "_int_field", b"_int_field", "_string_field", b"_string_field", "_type", b"_type", "bytes_field", b"bytes_field", "double_field", b"double_field", "int_field", b"int_field", "string_field", b"string_field", "type", b"type"]) -> None: ...
-    @typing.overload
-    def WhichOneof(self, oneof_group: typing_extensions.Literal["_bytes_field", b"_bytes_field"]) -> typing_extensions.Literal["bytes_field"] | None: ...
-    @typing.overload
-    def WhichOneof(self, oneof_group: typing_extensions.Literal["_double_field", b"_double_field"]) -> typing_extensions.Literal["double_field"] | None: ...
-    @typing.overload
-    def WhichOneof(self, oneof_group: typing_extensions.Literal["_int_field", b"_int_field"]) -> typing_extensions.Literal["int_field"] | None: ...
-    @typing.overload
-    def WhichOneof(self, oneof_group: typing_extensions.Literal["_string_field", b"_string_field"]) -> typing_extensions.Literal["string_field"] | None: ...
-    @typing.overload
+    def HasField(self, field_name: typing_extensions.Literal["_type", b"_type", "type", b"type"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["_type", b"_type", "fields", b"fields", "type", b"type"]) -> None: ...
     def WhichOneof(self, oneof_group: typing_extensions.Literal["_type", b"_type"]) -> typing_extensions.Literal["type"] | None: ...
 
 global___Response = Response

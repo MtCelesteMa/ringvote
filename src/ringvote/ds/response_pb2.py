@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 from . import question_pb2 as question__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0eresponse.proto\x12\x08ringvote\x1a\x0equestion.proto\"\xe6\x01\n\x08Response\x12)\n\x04type\x18\x01 \x01(\x0e\x32\x16.ringvote.QuestionTypeH\x00\x88\x01\x01\x12\x16\n\tint_field\x18\x02 \x01(\x03H\x01\x88\x01\x01\x12\x19\n\x0c\x64ouble_field\x18\x03 \x01(\x01H\x02\x88\x01\x01\x12\x19\n\x0cstring_field\x18\x04 \x01(\tH\x03\x88\x01\x01\x12\x18\n\x0b\x62ytes_field\x18\x05 \x01(\x0cH\x04\x88\x01\x01\x42\x07\n\x05_typeB\x0c\n\n_int_fieldB\x0f\n\r_double_fieldB\x0f\n\r_string_fieldB\x0e\n\x0c_bytes_fieldb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0eresponse.proto\x12\x08ringvote\x1a\x0equestion.proto\"\xd7\x01\n\x08Response\x12)\n\x04type\x18\x01 \x01(\x0e\x32\x16.ringvote.QuestionTypeH\x00\x88\x01\x01\x12(\n\x06\x66ields\x18\x02 \x03(\x0b\x32\x18.ringvote.Response.Field\x1am\n\x05\x46ield\x12\x13\n\tint_field\x18\x01 \x01(\x03H\x00\x12\x17\n\rdecimal_field\x18\x02 \x01(\x01H\x00\x12\x16\n\x0cstring_field\x18\x03 \x01(\tH\x00\x12\x15\n\x0b\x62ytes_field\x18\x04 \x01(\x0cH\x00\x42\x07\n\x05\x66ieldB\x07\n\x05_typeb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -23,5 +23,7 @@ if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
   _globals['_RESPONSE']._serialized_start=45
-  _globals['_RESPONSE']._serialized_end=275
+  _globals['_RESPONSE']._serialized_end=260
+  _globals['_RESPONSE_FIELD']._serialized_start=142
+  _globals['_RESPONSE_FIELD']._serialized_end=251
 # @@protoc_insertion_point(module_scope)
