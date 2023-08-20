@@ -42,7 +42,7 @@ class Ballot:
         return True
 
     def repr_responses(self) -> bytes:
-        return hashlib.sha256(b" ".join(bytes(response) for response in self.responses)).digest()
+        return hashlib.sha256(b" ".join(response.hash() for response in self.responses)).digest()
 
     def sign(self, key_ring: list[bytes], public_key: bytes, private_key: bytes) -> bytes:
         """Signs the ballot using a public and private keypair.

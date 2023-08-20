@@ -102,7 +102,11 @@ class Response:
         self.response_type = response_type
         self.fields = fields
 
-    def __bytes__(self) -> bytes:
+    def hash(self) -> bytes:
+        """Hashes the response.
+
+        :return: The hash of the response.
+        """
         hasher = hashlib.sha256()
         for field in self.fields:
             if field.field_type == FieldType.BYTES:
