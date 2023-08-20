@@ -31,6 +31,16 @@ class Ballot:
         """
         return isinstance(self.signature, bytes)
 
+    def check_format(self) -> bool:
+        """Checks if the response format is valid. THIS DOES NOT DETERMINE WHETHER THE SIGNATURE IS VALID!
+
+        :return: True if all the responses have valid formats, false otherwise.
+        """
+        for response in self.responses:
+            if not response.check_format():
+                return False
+        return True
+
     def repr_responses(self) -> bytes:
         return hashlib.sha256(b" ".join(bytes(response) for response in self.responses)).digest()
 

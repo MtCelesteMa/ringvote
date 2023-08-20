@@ -111,6 +111,38 @@ class Response:
                 hasher.update(str(field.data).encode())
         return hasher.digest()
 
+    def check_format(self) -> bool:
+        """Checks if the response format is valid. THIS DOES NOT DETERMINE WHETHER THE SIGNATURE IS VALID!
+
+        :return: True if the response format is valid, false otherwise.
+        """
+        field_types = [field.field_type for field in self.fields]
+        if self.response_type == QuestionType.QUESTION_TYPE_INTEGER:
+            if field_types != [FieldType.INTEGER]:
+                return False
+        elif self.response_type == QuestionType.QUESTION_TYPE_DECIMAL:
+            if field_types != [FieldType.DECIMAL]:
+                return False
+        elif self.response_type == QuestionType.QUESTION_TYPE_STRING:
+            if field_types != [FieldType.STRING]:
+                return False
+        elif self.response_type == QuestionType.QUESTION_TYPE_BYTES:
+            if field_types != [FieldType.BYTES]:
+                return False
+        elif self.response_type == QuestionType.QUESTION_TYPE_SINGLE_CHOICE:
+            if field_types != [FieldType.INTEGER]:
+                return False
+        elif self.response_type == QuestionType.QUESTION_TYPE_SINGLE_CHOICE_ALLOW_OTHER:
+            if field_types != [FieldType.INTEGER, FieldType.STRING]:
+                return False
+        elif self.response_type == QuestionType.QUESTION_TYPE_MULTIPLE_CHOICE:
+            if field_types != [FieldType.INTEGER]:
+                return False
+        elif self.response_type == QuestionType.QUESTION_TYPE_MULTIPLE_CHOICE_ALLOW_OTHER:
+            if field_types != [FieldType.INTEGER, FieldType.STRING]:
+                return False
+        return True
+
     def dump(self) -> Response_.Field:
         """Exports the response to a protocol buffer.
 
