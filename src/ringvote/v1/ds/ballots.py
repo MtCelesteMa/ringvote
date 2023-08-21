@@ -3,7 +3,7 @@
 from .ballot_pb2 import Ballot as Ballot_
 
 from .polls import Poll
-from .. import utils
+from ... import utils
 
 import typing
 

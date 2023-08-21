@@ -17,13 +17,13 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "crypto-otrs @ git+https://github.com/MtCelesteMa/my-cryptography.git#subdirectory=py-OTRS",
+    "crypto-otrs @ git+https://github.com/NickP005/my-cryptography.git#subdirectory=py-OTRS",
     "protobuf"
 ]
 
 [project.scripts]
-ringvote = "ringvote.cli.user:cli"
-ringvote-admin = "ringvote.cli.admin:cli"
+ringvote = "ringvote.v1.cli.user:cli"
+ringvote-admin = "ringvote.v1.cli.admin:cli"
 
 [project.urls]
 "Homepage" = "https://github.com/MtCelesteMa/ringvote"
